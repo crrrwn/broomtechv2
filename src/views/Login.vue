@@ -16,7 +16,6 @@
             Join our platform to experience fast and reliable delivery services powered by cutting-edge technology.
           </p>
           <div class="bg-white rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-300 hover:scale-105 group">
-
             <img 
               :src="'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/480029417_1340654447130069_6688936135765663218_n-b88BWlSzAh5H0FW1yJAsN5cF2QdLVJ.png'" 
               alt="Delivery Illustration"
@@ -27,10 +26,51 @@
     
         <!-- Right Column -->
         <div class="bg-white rounded-2xl shadow-2xl p-8 sm:p-10 transform transition-all duration-300 hover:shadow-3xl">
-          <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Sign in or sign up</h2>
-          <p class="text-[#666666] text-lg mb-6 text-center">Enter your phone number to continue</p>
+          <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Sign up</h2>
+          <p class="text-[#666666] text-lg mb-6 text-center">Create your account to continue</p>
     
-          <div class="flex gap-3 mb-6">
+          <!-- First Name -->
+          <div class="mb-4">
+            <input
+              v-model="firstName"
+              type="text"
+              placeholder="First Name"
+              class="w-full px-4 py-3 border-2 border-black-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651] focus:border-transparent text-lg"
+            />
+          </div>
+
+          <!-- Last Name -->
+          <div class="mb-4">
+            <input
+              v-model="lastName"
+              type="text"
+              placeholder="Last Name"
+              class="w-full px-4 py-3 border-2 border-black-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651] focus:border-transparent text-lg"
+            />
+          </div>
+
+          <!-- Middle Name -->
+          <div class="mb-4">
+            <input
+              v-model="middleName"
+              type="text"
+              placeholder="Middle Name"
+              class="w-full px-4 py-3 border-2 border-black-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651] focus:border-transparent text-lg"
+            />
+          </div>
+
+          <!-- Address -->
+          <div class="mb-4">
+            <input
+              v-model="address"
+              type="text"
+              placeholder="Address"
+              class="w-full px-4 py-3 border-2 border-black-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651] focus:border-transparent text-lg"
+            />
+          </div>
+
+          <!-- Phone Number -->
+          <div class="flex gap-3 mb-4">
             <div class="relative">
               <select
                 v-model="countryCode"
@@ -52,21 +92,51 @@
               class="flex-1 px-4 py-3 border-2 border-black-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651] focus:border-transparent text-lg"
             />
           </div>
-    
+
+          <!-- Email -->
+          <div class="mb-4">
+            <input
+              v-model="email"
+              type="email"
+              placeholder="Email"
+              class="w-full px-4 py-3 border-2 border-black-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651] focus:border-transparent text-lg"
+            />
+          </div>
+
+          <!-- Password -->
+          <div class="mb-4">
+            <input
+              v-model="password"
+              type="password"
+              placeholder="Password"
+              class="w-full px-4 py-3 border-2 border-black-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651] focus:border-transparent text-lg"
+            />
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="mb-6">
+            <input
+              v-model="confirmPassword"
+              type="password"
+              placeholder="Confirm Password"
+              class="w-full px-4 py-3 border-2 border-black-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651] focus:border-transparent text-lg"
+            />
+          </div>
+
           <p v-if="error" class="text-red-500 text-sm mb-4 text-center">{{ error }}</p>
     
           <button
-            @click="handleLogin"
-            :disabled="!isValidPhone || isLoading"
+            @click="handleSignUp"
+            :disabled="isLoading"
             class="w-full bg-[#00a651] text-white py-4 rounded-lg font-semibold mb-6 disabled:bg-gray-200 disabled:cursor-not-allowed hover:bg-[#008f45] transition-colors text-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
           >
-            <span v-if="!isLoading">Continue</span>
+            <span v-if="!isLoading">Sign Up</span>
             <span v-else class="flex items-center justify-center">
               <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              Sending...
+              Signing Up...
             </span>
           </button>
     
@@ -106,82 +176,54 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { auth } from '../config/firebase'
-import { signInWithPhoneNumber, GoogleAuthProvider, signInWithPopup, RecaptchaVerifier } from 'firebase/auth'
+import { createUserWithEmailAndPassword, sendEmailVerification, GoogleAuthProvider, signInWithPopup, RecaptchaVerifier } from 'firebase/auth'
 
 export default {
-  name: 'Login',
+  name: 'SignUp',
   setup() {
     const router = useRouter()
+    const firstName = ref('')
+    const lastName = ref('')
+    const middleName = ref('')
+    const address = ref('')
     const countryCode = ref('+63')
     const phoneNumber = ref('')
-    const isValidPhone = ref(false)
+    const email = ref('')
+    const password = ref('')
+    const confirmPassword = ref('')
     const isLoading = ref(false)
     const error = ref('')
     const recaptchaVerifier = ref(null)
 
-    const validatePhone = () => {
-      const phoneRegex = /^[0-9]{10}$/
-      isValidPhone.value = phoneRegex.test(phoneNumber.value)
-      if (error.value) error.value = ''
-    }
-
-    const setupRecaptcha = () => {
-      try {
-        if (recaptchaVerifier.value) {
-          recaptchaVerifier.value.clear()
-        }
-        recaptchaVerifier.value = new RecaptchaVerifier(auth, 'recaptcha-container', {
-          size: 'invisible',
-          callback: (response) => {
-            console.log('reCAPTCHA verified', response)
-          },
-          'expired-callback': () => {
-            error.value = 'reCAPTCHA expired. Please try again.'
-            recaptchaVerifier.value = null
-          }
-        })
-        return recaptchaVerifier.value
-      } catch (err) {
-        console.error('Error setting up reCAPTCHA:', err)
-        error.value = 'Error setting up verification. Please refresh the page.'
-        return null
+    const validateForm = () => {
+      if (!firstName.value || !lastName.value || !email.value || !password.value || !confirmPassword.value) {
+        error.value = 'Please fill in all required fields.'
+        return false
       }
+      if (password.value !== confirmPassword.value) {
+        error.value = 'Passwords do not match.'
+        return false
+      }
+      return true
     }
 
-    const handleLogin = async () => {
+    const handleSignUp = async () => {
+      if (!validateForm()) return
+
       try {
         isLoading.value = true
         error.value = ''
 
-        const verifier = setupRecaptcha()
-        if (!verifier) {
-          throw new Error('Failed to setup reCAPTCHA')
-        }
-
-        const formattedNumber = `${countryCode.value}${phoneNumber.value}`
-        console.log('Sending code to:', formattedNumber)
-
-        const confirmationResult = await signInWithPhoneNumber(auth, formattedNumber, verifier)
+        const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value)
+        await sendEmailVerification(userCredential.user)
         
-        localStorage.setItem('verificationId', confirmationResult.verificationId)
-        localStorage.setItem('phoneNumber', formattedNumber)
-
-        router.push('/verify')
+        router.push('/verify-email')
       } catch (err) {
-        console.error('Error during phone auth:', err)
-        if (err.code === 'auth/invalid-phone-number') {
-          error.value = 'Invalid phone number. Please check and try again.'
-        } else if (err.code === 'auth/too-many-requests') {
-          error.value = 'Too many attempts. Please try again later.'
-        } else if (err.code === 'auth/captcha-check-failed') {
-          error.value = 'reCAPTCHA verification failed. Please try again.'
+        console.error('Error during sign up:', err)
+        if (err.code === 'auth/email-already-in-use') {
+          error.value = 'Email is already in use.'
         } else {
-          error.value = 'Failed to send verification code. Please try again.'
-        }
-        
-        if (recaptchaVerifier.value) {
-          recaptchaVerifier.value.clear()
-          recaptchaVerifier.value = null
+          error.value = 'Failed to sign up. Please try again.'
         }
       } finally {
         isLoading.value = false
@@ -204,13 +246,18 @@ export default {
     }
 
     return {
+      firstName,
+      lastName,
+      middleName,
+      address,
       countryCode,
       phoneNumber,
-      isValidPhone,
+      email,
+      password,
+      confirmPassword,
       isLoading,
       error,
-      validatePhone,
-      handleLogin,
+      handleSignUp,
       handleGoogleLogin
     }
   }
