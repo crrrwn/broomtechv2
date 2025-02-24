@@ -8,14 +8,9 @@
             <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
             <path d="M15 9h-2V7a1 1 0 0 0-2 0v2H9a1 1 0 0 0 0 2h2v2a1 1 0 0 0 2 0v-2h2a1 1 0 0 0 0-2z"/>
           </svg>
-          <span class="text-[#00a651] text-xl font-semibold">BroomTech</span>
+          <span class="text-[#00a651] text-xll font-semibold">BroomTech</span>
         </router-link>
-        <router-link
-          to="/get-started"
-          class="bg-[#00a651] text-white px-6 py-2 rounded-md text-sm font-medium hover:bg-[#008f45] transition-colors"
-        >
-          Get Started
-        </router-link>
+       
       </div>
     </header>
 

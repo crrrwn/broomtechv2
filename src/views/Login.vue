@@ -1,224 +1,250 @@
 <template>
-    <div class="min-h-screen bg-[#f5f9f5] pt-16">
-      <div class="max-w-[1200px] mx-auto px-4">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          <!-- Left Column -->
-          <div>
-            <h1 class="text-[32px] font-bold text-gray-900 mb-2">
-              Welcome to BroomTech
-            </h1>
-            <p class="text-[#666666] text-lg mb-6">
-              Join our platform to experience fast and reliable delivery services
-            </p>
-            <div class="bg-[#f5f9f5] rounded-lg overflow-hidden">
-              <img 
-                :src="'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/480029417_1340654447130069_6688936135765663218_n-b88BWlSzAh5H0FW1yJAsN5cF2QdLVJ.png'" 
-                alt="Delivery Illustration"
-                class="w-full h-full object-contain"
-              />
-            </div>
-          </div>
-    
-          <!-- Right Column -->
-          <div class="bg-white rounded-xl p-8">
-            <h2 class="text-[24px] font-bold text-gray-900 mb-2">Sign in or sign up</h2>
-            <p class="text-[#666666] mb-6">Enter your phone number to continue</p>
-    
-            <div class="flex gap-2 mb-4">
-              <div class="relative">
-                <select
-                  v-model="countryCode"
-                  class="w-[76px] appearance-none pl-3 pr-8 py-2.5 bg-white border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a651] focus:border-[#00a651]"
-                >
-                  <option value="+63">+63</option>
-                </select>
-                <div class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </div>
-              </div>
-              <input
-                type="tel"
-                v-model="phoneNumber"
-                placeholder="Enter phone number"
-                @input="validatePhone"
-                class="flex-1 px-3 py-2.5 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a651] focus:border-[#00a651]"
-              />
-            </div>
-    
-            <p v-if="error" class="text-red-500 text-sm mb-4">{{ error }}</p>
-    
-            <button
-              @click="handleLogin"
-              :disabled="!isValidPhone || isLoading"
-              class="w-full bg-[#00a651] text-white py-3 rounded-md font-medium mb-6 disabled:bg-gray-200 disabled:cursor-not-allowed hover:bg-[#008f45] transition-colors"
-            >
-              {{ isLoading ? 'Sending...' : 'Continue' }}
-            </button>
-    
-            <div class="relative mb-6">
-              <div class="absolute inset-0 flex items-center">
-                <div class="w-full border-t border-gray-200"></div>
-              </div>
-              <div class="relative flex justify-center text-sm">
-                <span class="px-4 bg-white text-[#666666]">OR</span>
-              </div>
-            </div>
-    
-            <button
-              @click="handleGoogleLogin"
-              :disabled="isLoading"
-              class="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
-            >
-              <img src="../assets/google-icon.svg" alt="Google" class="w-5 h-5" />
-              <span class="text-gray-700 font-medium">Continue with Google</span>
-            </button>
-    
-            <p class="mt-6 text-center text-sm text-[#666666]">
-              By continuing, you agree to our
-              <router-link to="/terms" class="text-[#00a651] hover:underline">Terms of Service</router-link>
-              and
-              <router-link to="/privacy" class="text-[#00a651] hover:underline">Privacy Policy</router-link>
-            </p>
+  <div class="min-h-screen bg-gradient-to-br from-[#f0f8f0] to-[#e6f3e6] pt-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <div class="max-w-[1200px] mx-auto relative">
+      <!-- Background Elements -->
+      <div class="absolute top-0 left-0 w-64 h-64 bg-[#00a651] rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+      <div class="absolute top-0 right-0 w-64 h-64 bg-[#5cb85c] rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+      <div class="absolute -bottom-32 left-20 w-64 h-64 bg-[#8bc34a] rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative">
+        <!-- Left Column -->
+        <div class="text-center lg:text-left z-10">
+          <h1 class="text-5xl sm:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+            Welcome to <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00a651] to-[#ECE852]">BroomTech</span>
+          </h1>
+          <p class="text-[#666666] text-xl mb-10 max-w-lg mx-auto lg:mx-0">
+            Join our platform to experience fast and reliable delivery services powered by cutting-edge technology.
+          </p>
+          <div class="bg-white rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-300 hover:scale-105 group">
+
+            <img 
+              :src="'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/480029417_1340654447130069_6688936135765663218_n-b88BWlSzAh5H0FW1yJAsN5cF2QdLVJ.png'" 
+              alt="Delivery Illustration"
+              class="w-full h-full object-contain"
+            />
           </div>
         </div>
+    
+        <!-- Right Column -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8 sm:p-10 transform transition-all duration-300 hover:shadow-3xl">
+          <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Sign in or sign up</h2>
+          <p class="text-[#666666] text-lg mb-6 text-center">Enter your phone number to continue</p>
+    
+          <div class="flex gap-3 mb-6">
+            <div class="relative">
+              <select
+                v-model="countryCode"
+                class="w-[80px] appearance-none pl-3 pr-8 py-3 bg-white border-2 border-black-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651] focus:border-transparent text-lg"
+              >
+                <option value="+63">+63</option>
+              </select>
+              <div class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </div>
+            </div>
+            <input
+              type="tel"
+              v-model="phoneNumber"
+              placeholder="Enter phone number"
+              @input="validatePhone"
+              class="flex-1 px-4 py-3 border-2 border-black-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a651] focus:border-transparent text-lg"
+            />
+          </div>
+    
+          <p v-if="error" class="text-red-500 text-sm mb-4 text-center">{{ error }}</p>
+    
+          <button
+            @click="handleLogin"
+            :disabled="!isValidPhone || isLoading"
+            class="w-full bg-[#00a651] text-white py-4 rounded-lg font-semibold mb-6 disabled:bg-gray-200 disabled:cursor-not-allowed hover:bg-[#008f45] transition-colors text-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+          >
+            <span v-if="!isLoading">Continue</span>
+            <span v-else class="flex items-center justify-center">
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Sending...
+            </span>
+          </button>
+    
+          <div class="relative mb-6">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-gray-300"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-4 bg-white text-[#666666] text-lg">OR</span>
+            </div>
+          </div>
+    
+          <button
+            @click="handleGoogleLogin"
+            :disabled="isLoading"
+            class="w-full flex items-center justify-center gap-3 px-4 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+          >
+            <img src="../assets/google-icon.svg" alt="Google" class="w-6 h-6" />
+            <span class="text-gray-700">Continue with Google</span>
+          </button>
+    
+          <p class="mt-8 text-center text-sm text-[#666666]">
+            By continuing, you agree to our
+            <router-link to="/terms" class="text-[#00a651] hover:underline font-medium">Terms of Service</router-link>
+            and
+            <router-link to="/privacy" class="text-[#00a651] hover:underline font-medium">Privacy Policy</router-link>
+          </p>
+        </div>
       </div>
-      <!-- Hidden recaptcha container -->
-      <div id="recaptcha-container" class="hidden"></div>
     </div>
-    </template>
-    
-    <script>
-    import { ref } from 'vue'
-    import { useRouter } from 'vue-router'
-    import { auth } from '../config/firebase'
-    import { signInWithPhoneNumber, GoogleAuthProvider, signInWithPopup, RecaptchaVerifier } from 'firebase/auth'
-    
-    export default {
-      name: 'Login',
-      setup() {
-        const router = useRouter()
-        const countryCode = ref('+63')
-        const phoneNumber = ref('')
-        const isValidPhone = ref(false)
-        const isLoading = ref(false)
-        const error = ref('')
-        const recaptchaVerifier = ref(null)
-    
-        const validatePhone = () => {
-          const phoneRegex = /^[0-9]{10}$/
-          isValidPhone.value = phoneRegex.test(phoneNumber.value)
-          if (error.value) error.value = ''
+    <!-- Hidden recaptcha container -->
+    <div id="recaptcha-container" class="hidden"></div>
+  </div>
+</template>
+
+<script>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { auth } from '../config/firebase'
+import { signInWithPhoneNumber, GoogleAuthProvider, signInWithPopup, RecaptchaVerifier } from 'firebase/auth'
+
+export default {
+  name: 'Login',
+  setup() {
+    const router = useRouter()
+    const countryCode = ref('+63')
+    const phoneNumber = ref('')
+    const isValidPhone = ref(false)
+    const isLoading = ref(false)
+    const error = ref('')
+    const recaptchaVerifier = ref(null)
+
+    const validatePhone = () => {
+      const phoneRegex = /^[0-9]{10}$/
+      isValidPhone.value = phoneRegex.test(phoneNumber.value)
+      if (error.value) error.value = ''
+    }
+
+    const setupRecaptcha = () => {
+      try {
+        if (recaptchaVerifier.value) {
+          recaptchaVerifier.value.clear()
         }
-    
-        const setupRecaptcha = () => {
-          try {
-            if (recaptchaVerifier.value) {
-              recaptchaVerifier.value.clear()
-            }
-            recaptchaVerifier.value = new RecaptchaVerifier(auth, 'recaptcha-container', {
-              size: 'invisible',
-              callback: (response) => {
-                console.log('reCAPTCHA verified', response)
-              },
-              'expired-callback': () => {
-                error.value = 'reCAPTCHA expired. Please try again.'
-                recaptchaVerifier.value = null
-              }
-            })
-            return recaptchaVerifier.value
-          } catch (err) {
-            console.error('Error setting up reCAPTCHA:', err)
-            error.value = 'Error setting up verification. Please refresh the page.'
-            return null
+        recaptchaVerifier.value = new RecaptchaVerifier(auth, 'recaptcha-container', {
+          size: 'invisible',
+          callback: (response) => {
+            console.log('reCAPTCHA verified', response)
+          },
+          'expired-callback': () => {
+            error.value = 'reCAPTCHA expired. Please try again.'
+            recaptchaVerifier.value = null
           }
-        }
-    
-        const handleLogin = async () => {
-          try {
-            isLoading.value = true
-            error.value = ''
-    
-            const verifier = setupRecaptcha()
-            if (!verifier) {
-              throw new Error('Failed to setup reCAPTCHA')
-            }
-    
-            const formattedNumber = `${countryCode.value}${phoneNumber.value}`
-            console.log('Sending code to:', formattedNumber)
-    
-            const confirmationResult = await signInWithPhoneNumber(auth, formattedNumber, verifier)
-            
-            localStorage.setItem('verificationId', confirmationResult.verificationId)
-            localStorage.setItem('phoneNumber', formattedNumber)
-    
-            router.push('/verify')
-          } catch (err) {
-            console.error('Error during phone auth:', err)
-            if (err.code === 'auth/invalid-phone-number') {
-              error.value = 'Invalid phone number. Please check and try again.'
-            } else if (err.code === 'auth/too-many-requests') {
-              error.value = 'Too many attempts. Please try again later.'
-            } else if (err.code === 'auth/captcha-check-failed') {
-              error.value = 'reCAPTCHA verification failed. Please try again.'
-            } else {
-              error.value = 'Failed to send verification code. Please try again.'
-            }
-            
-            if (recaptchaVerifier.value) {
-              recaptchaVerifier.value.clear()
-              recaptchaVerifier.value = null
-            }
-          } finally {
-            isLoading.value = false
-          }
-        }
-    
-        const handleGoogleLogin = async () => {
-          try {
-            isLoading.value = true
-            error.value = ''
-            const provider = new GoogleAuthProvider()
-            await signInWithPopup(auth, provider)
-            router.push('/location')
-          } catch (err) {
-            console.error('Error with Google login:', err)
-            error.value = 'Failed to sign in with Google. Please try again.'
-          } finally {
-            isLoading.value = false
-          }
-        }
-    
-        return {
-          countryCode,
-          phoneNumber,
-          isValidPhone,
-          isLoading,
-          error,
-          validatePhone,
-          handleLogin,
-          handleGoogleLogin
-        }
+        })
+        return recaptchaVerifier.value
+      } catch (err) {
+        console.error('Error setting up reCAPTCHA:', err)
+        error.value = 'Error setting up verification. Please refresh the page.'
+        return null
       }
     }
-    </script>
-    
-    <style scoped>
-    select {
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      background-image: none;
+
+    const handleLogin = async () => {
+      try {
+        isLoading.value = true
+        error.value = ''
+
+        const verifier = setupRecaptcha()
+        if (!verifier) {
+          throw new Error('Failed to setup reCAPTCHA')
+        }
+
+        const formattedNumber = `${countryCode.value}${phoneNumber.value}`
+        console.log('Sending code to:', formattedNumber)
+
+        const confirmationResult = await signInWithPhoneNumber(auth, formattedNumber, verifier)
+        
+        localStorage.setItem('verificationId', confirmationResult.verificationId)
+        localStorage.setItem('phoneNumber', formattedNumber)
+
+        router.push('/verify')
+      } catch (err) {
+        console.error('Error during phone auth:', err)
+        if (err.code === 'auth/invalid-phone-number') {
+          error.value = 'Invalid phone number. Please check and try again.'
+        } else if (err.code === 'auth/too-many-requests') {
+          error.value = 'Too many attempts. Please try again later.'
+        } else if (err.code === 'auth/captcha-check-failed') {
+          error.value = 'reCAPTCHA verification failed. Please try again.'
+        } else {
+          error.value = 'Failed to send verification code. Please try again.'
+        }
+        
+        if (recaptchaVerifier.value) {
+          recaptchaVerifier.value.clear()
+          recaptchaVerifier.value = null
+        }
+      } finally {
+        isLoading.value = false
+      }
     }
-    
-    input[type="tel"]::-webkit-outer-spin-button,
-    input[type="tel"]::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
+
+    const handleGoogleLogin = async () => {
+      try {
+        isLoading.value = true
+        error.value = ''
+        const provider = new GoogleAuthProvider()
+        await signInWithPopup(auth, provider)
+        router.push('/location')
+      } catch (err) {
+        console.error('Error with Google login:', err)
+        error.value = 'Failed to sign in with Google. Please try again.'
+      } finally {
+        isLoading.value = false
+      }
     }
-    
-    input[type="tel"] {
-      -moz-appearance: textfield;
+
+    return {
+      countryCode,
+      phoneNumber,
+      isValidPhone,
+      isLoading,
+      error,
+      validatePhone,
+      handleLogin,
+      handleGoogleLogin
     }
-    </style>
+  }
+}
+</script>
+
+<style scoped>
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: none;
+}
+
+input[type="tel"]::-webkit-outer-spin-button,
+input[type="tel"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="tel"] {
+  -moz-appearance: textfield;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.grid > div {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.grid > div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+</style>
